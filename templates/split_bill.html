@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Split Bill - Expense Tracker{% endblock %}
+
+{% block content %}
+  <h1>Split Bill Calculator</h1>
+  <p class="hint">This runs entirely in your browser — no data is sent to the server.</p>
+
+  <section class="card">
+    <div class="form-row">
+      <label for="bill-total">Total Bill Amount (₹)</label>
+      <input type="number" id="bill-total" step="0.01" min="0.01" placeholder="e.g. 1500">
+    </div>
+
+    <div class="form-row">
+      <label>People</label>
+      <div id="people-list">
+        <div class="person-row">
+          <input type="text" class="person-name" placeholder="Person 1 name">
+        </div>
+        <div class="person-row">
+          <input type="text" class="person-name" placeholder="Person 2 name">
+        </div>
+      </div>
+      <button type="button" id="add-person-btn" class="secondary">+ Add Person</button>
+    </div>
+
+    <button type="button" id="split-btn">Split Bill</button>
+
+    <div id="split-results" class="hidden">
+      <h3>Each person owes:</h3>
+      <ul id="split-results-list"></ul>
+      <p id="split-remainder-note" class="hint hidden"></p>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/split.js') }}"></script>
+{% endblock %}

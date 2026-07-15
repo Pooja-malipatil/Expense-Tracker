@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Expense Tracker{% endblock %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+
+  <section class="card">
+    <h2>Add Expense</h2>
+    <form id="expense-form">
+      <input type="hidden" id="expense-id">
+      <div class="form-row">
+        <label for="amount">Amount (₹)</label>
+        <input type="number" id="amount" step="0.01" min="0.01" required>
+      </div>
+      <div class="form-row">
+        <label for="category">Category</label>
+        <select id="category" required>
+          <option value="">Select category</option>
+          <option>Food</option>
+          <option>Travel</option>
+          <option>Utilities</option>
+          <option>Entertainment</option>
+          <option>Shopping</option>
+          <option>Rent</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="date">Date</label>
+        <input type="date" id="date" required>
+      </div>
+      <div class="form-row">
+        <label for="description">Description</label>
+        <input type="text" id="description" placeholder="Optional note">
+      </div>
+      <div class="form-actions">
+        <button type="submit" id="submit-btn">Add Expense</button>
+        <button type="button" id="cancel-edit-btn" class="secondary hidden">Cancel</button>
+      </div>
+      <p id="form-error" class="error hidden"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Monthly Summary</h2>
+    <div class="form-row month-picker">
+      <label for="month-select">Month</label>
+      <input type="month" id="month-select">
+    </div>
+    <p class="total-display">Total spent: <span id="total-amount">₹0.00</span></p>
+    <div class="chart-wrap">
+      <canvas id="category-chart"></canvas>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>All Expenses</h2>
+    <table id="expense-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="expense-table-body">
+        <!-- populated by main.js -->
+      </tbody>
+    </table>
+    <p id="empty-state" class="hidden">No expenses yet. Add your first one above.</p>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

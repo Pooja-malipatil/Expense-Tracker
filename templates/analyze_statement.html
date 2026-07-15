@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Analyze Statement - Expense Tracker{% endblock %}
+
+{% block content %}
+  <h1>Analyze Statement</h1>
+  <p class="hint">
+    Upload a monthly bank or card statement PDF to see how much you sent vs
+    received, who you paid repeatedly, and your biggest expenses. Works best
+    with text-based statements that have a transaction table (date,
+    description, and debit/credit or amount columns). Scanned image PDFs
+    aren't supported yet.
+  </p>
+
+  <section class="card">
+    <div class="form-row">
+      <input type="file" id="statement-input" accept="application/pdf">
+    </div>
+    <button type="button" id="statement-upload-btn">Upload &amp; Analyze</button>
+    <p id="statement-status" class="hint hidden"></p>
+  </section>
+
+  <div id="insights-section" class="hidden">
+    <section class="card">
+      <h2>Overview</h2>
+      <div class="insights-grid">
+        <div class="insight-stat">
+          <span class="insight-label">Total Sent</span>
+          <span class="insight-value sent" id="stat-total-sent">₹0.00</span>
+        </div>
+        <div class="insight-stat">
+          <span class="insight-label">Total Received</span>
+          <span class="insight-value received" id="stat-total-received">₹0.00</span>
+        </div>
+        <div class="insight-stat">
+          <span class="insight-label">Net</span>
+          <span class="insight-value" id="stat-net">₹0.00</span>
+        </div>
+        <div class="insight-stat">
+          <span class="insight-label">Transactions Found</span>
+          <span class="insight-value" id="stat-count">0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Biggest Single Expense</h2>
+      <p id="biggest-expense-text" class="hint">No expenses found.</p>
+    </section>
+
+    <section class="card">
+      <h2>Top Spending Destinations</h2>
+      <div class="chart-wrap">
+        <canvas id="recipients-chart"></canvas>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>People / Places You Paid More Than Once</h2>
+      <table id="frequency-table">
+        <thead>
+          <tr>
+            <th>Name / Merchant</th>
+            <th>Times Paid</th>
+            <th>Total Sent</th>
+          </tr>
+        </thead>
+        <tbody id="frequency-table-body">
+          <!-- populated by statement.js -->
+        </tbody>
+      </table>
+      <p id="frequency-empty" class="hint hidden">No repeated recipients found.</p>
+    </section>
+
+    <section class="card">
+      <h2>All Transactions</h2>
+      <p class="hint">Select which "sent" transactions to import into your expense tracker.</p>
+      <div class="form-actions" style="margin-bottom: 12px;">
+        <button type="button" id="select-all-btn" class="secondary">Select All Sent</button>
+        <button type="button" id="deselect-all-btn" class="secondary">Deselect All</button>
+      </div>
+      <table id="transactions-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Direction</th>
+            <th>Category</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="transactions-table-body">
+          <!-- populated by statement.js -->
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <button type="button" id="import-selected-btn">Import Selected into Tracker</button>
+      </div>
+      <p id="import-status" class="hint hidden"></p>
+    </section>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/statement.js') }}"></script>
+{% endblock %}
